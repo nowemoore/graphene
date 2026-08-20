@@ -1,0 +1,495 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   the field map (react-flow) + its detail modal
+   ────────────────────────────────────────────────────────────────────────── */
+
+.map-section {
+  padding: 0 0 var(--space-3xl);
+}
+
+.map-hint {
+  margin: 0 0 var(--space-m);
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.graph-wrap {
+  width: 100%;
+  height: clamp(420px, 66svh, 720px);
+  /* a lit centre falling off to the deep ground, so the lattice reads */
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, #0A5872 0%, var(--color-deep-bg) 80%);
+}
+
+/* react-flow paints its own pane background; keep it out of the way */
+.react-flow,
+.react-flow__pane,
+.react-flow__renderer {
+  background: transparent !important;
+}
+
+/* ── nodes ───────────────────────────────────────────────────────────────── */
+
+/* reset React Flow's default node wrapper chrome */
+.react-flow__node {
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+.rf-node {
+  padding: var(--space-s) var(--space-m);
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-s);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+  white-space: nowrap;
+  user-select: none;
+  transition: box-shadow 160ms ease, background 160ms ease,
+              border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+/* tier sizing */
+.rf-node[data-tier="1"] { font-size: var(--text-xl); font-weight: 600; padding: var(--space-l) var(--space-2xl); }
+.rf-node[data-tier="2"] { font-size: var(--text-l);  font-weight: 600; padding: var(--space-m) var(--space-xl); }
+.rf-node[data-tier="3"] { font-size: var(--text-l);  font-weight: 600; padding: var(--space-m) var(--space-l); }
+.rf-node[data-tier="4"] { font-size: var(--text-s);  font-weight: 400; padding: var(--space-s) var(--space-m); }
+
+/* tier 1 — the anchor */
+.rf-node[data-tier="1"] {
+  background: var(--color-tier1-bg);
+  border-color: var(--color-tier1-br);
+  color: var(--color-tier1-fg);
+  font-family: var(--font-heading);
+  box-shadow: 0 8px 24px var(--color-shadow-l);
+}
+
+/* tier 2 — the two branches */
+.rf-node[data-tier="2"] {
+  background: var(--color-tier2-bg);
+  border-color: var(--color-tier2-br);
+  color: var(--color-tier2-fg);
+  box-shadow: 0 4px 14px var(--color-shadow-m);
+}
+
+/* tier 3 — clickable problem areas */
+.rf-node[data-tier="3"] {
+  background: var(--color-tier3-bg);
+  border-width: 2px;
+  border-color: var(--color-tier3-br);
+  color: var(--color-tier3-fg);
+  box-shadow: 0 3px 12px var(--color-shadow-s);
+}
+
+/* tier 4 — leaf context */
+.rf-node[data-tier="4"] {
+  background: var(--color-tier4-bg);
+  border-color: var(--color-tier4-br);
+  color: var(--color-tier4-fg);
+}
+
+.rf-node--clickable {
+  cursor: pointer !important;
+}
+
+.rf-node--clickable:hover {
+  background: var(--color-tier3-hov-bg);
+  border-color: var(--color-tier3-hov-br);
+  color: var(--color-tier3-hov-fg);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px var(--color-shadow-m);
+}
+
+.rf-node__label {
+  display: block;
+  pointer-events: none;
+}
+
+.rf-node__icon {
+  margin-right: 0.42em;
+}
+
+.rf-handle {
+  width: 1px !important;
+  height: 1px !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  background: transparent !important;
+  border: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ── controls ────────────────────────────────────────────────────────────── */
+
+.react-flow__controls {
+  box-shadow: 0 4px 14px var(--color-shadow-s) !important;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: var(--color-control-bg) !important;
+  border-color: var(--color-border-control) !important;
+  color: var(--color-text-controls) !important;
+  fill: var(--color-text-controls) !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--color-control-bg-hover) !important;
+}
+
+/* ── modal ───────────────────────────────────────────────────────────────── */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: var(--color-modal-backdrop);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  padding: var(--space-l);
+}
+
+.detail-modal {
+  width: min(640px, 100%);
+  max-height: min(90svh, 760px);
+  border-radius: 18px;
+  padding: var(--space-xl) var(--space-m) var(--space-2xl) var(--space-2xl);
+  border: 1px solid var(--color-line);
+  background: var(--color-modal-bg);
+  color: var(--color-text-body);
+  box-shadow: 0 24px 60px var(--color-shadow-modal);
+  animation: modal-rise 220ms ease-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-topbar {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  padding-bottom: var(--space-s);
+  padding-right: var(--space-s);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--color-modal-close);
+  font-size: var(--text-xl);
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: color 140ms ease;
+}
+
+.modal-close:hover {
+  color: var(--color-modal-close-hover);
+}
+
+.modal-body {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scroll-thumb) transparent;
+}
+
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-button { display: none; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--color-scroll-thumb);
+  border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scroll-thumb-hov);
+}
+
+.modal-section {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-2xl);
+  padding-right: var(--space-xl);
+  border-top: 1px solid var(--color-line-soft);
+}
+
+.modal-section:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.section-kicker {
+  margin: 0 0 var(--space-s);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-kicker);
+}
+
+.modal-section h2 {
+  margin: 0 0 var(--space-m);
+  font-size: var(--text-xl);
+}
+
+.overview-copy {
+  margin: 0;
+  font-size: var(--text-s);
+  color: var(--color-text-body);
+}
+
+.resource-subsection {
+  padding: var(--space-l) 0;
+}
+
+.resource-subsection:first-of-type {
+  padding-top: var(--space-s);
+}
+
+.resource-subsection h3 {
+  margin: 0 0 var(--space-s);
+  font-size: var(--text-m);
+  font-weight: 600;
+}
+
+.resource-subsection ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.resource-subsection li {
+  display: flex;
+  gap: var(--space-s);
+  margin-bottom: var(--space-xs);
+  font-size: var(--text-s);
+  line-height: 1.65;
+  color: var(--color-text-body);
+}
+
+.resource-bullet {
+  flex-shrink: 0;
+  margin-top: 0.42em;
+  font-size: 0.78em;
+  color: var(--pin-teal);
+}
+
+.resource-link {
+  color: var(--color-link);
+  font-weight: 600;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-link-underline);
+}
+
+/* content links carry the link glyph in front of them */
+.resource-link::before,
+.quality__link::before {
+  content: "";
+  display: inline-block;
+  width: 0.95em;
+  height: 0.95em;
+  margin-right: 0.35em;
+  vertical-align: -0.14em;
+  background-color: currentColor;
+  -webkit-mask: var(--icon-link) center / contain no-repeat;
+  mask: var(--icon-link) center / contain no-repeat;
+}
+
+@keyframes modal-rise {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 680px) {
+  .detail-modal {
+    padding: var(--space-l) var(--space-s) var(--space-xl) var(--space-xl);
+  }
+
+  .modal-section {
+    padding-right: var(--space-m);
+  }
+}
+
+/* ── the map on the deep ground ──────────────────────────────────────────── */
+
+.map-section--deep {
+  background: var(--color-deep-bg);
+}
+
+.map-section--deep .map-hint {
+  color: var(--color-deep-muted);
+}
+
+/* tier 1 — the anchor is the brightest thing on the board */
+.map-section--deep .rf-node[data-tier="1"] {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: var(--pin-deep-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* tier 2 — the two branches */
+.map-section--deep .rf-node[data-tier="2"] {
+  background: var(--pin-teal);
+  border-color: var(--pin-teal-soft);
+  color: #06303C;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* tier 3 — clickable problem areas */
+.map-section--deep .rf-node[data-tier="3"] {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: var(--pin-teal);
+  color: #EAF6F9;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+}
+
+.map-section--deep .rf-node--clickable:hover {
+  background: rgba(224, 138, 99, 0.16);
+  border-color: var(--pin-rust-lift);
+  color: #FBE6DC;
+}
+
+/* tier 4 — leaf context */
+.map-section--deep .rf-node[data-tier="4"] {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(145, 200, 214, 0.35);
+  color: #C7DDE4;
+}
+
+/* ── FAQ drawer over the map ─────────────────────────────────────────────── */
+
+.map-stage {
+  position: relative;
+}
+
+/* the tab that opens it, pinned to the right edge of the map */
+.faq-tab {
+  position: absolute;
+  top: var(--space-xl);
+  right: 0;
+  z-index: 4;
+  padding: var(--space-m) var(--space-l);
+  border: 1px solid rgba(145, 200, 214, 0.35);
+  border-right: 0;
+  border-radius: 10px 0 0 10px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: #EAF6F9;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.faq-tab:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--pin-teal);
+}
+
+.faq-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(1, 32, 44, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.faq-scrim--on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.faq-drawer {
+  /* fixed to the viewport, not the map — it covers the page edge to edge
+     so there is no seam where the map section stops */
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 60;
+  width: min(460px, 92vw);
+  height: 100svh;
+  padding: var(--space-2xl) var(--space-xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  background: var(--color-deep-bg);
+  border-left: 1px solid rgba(145, 200, 214, 0.28);
+  translate: 100% 0;
+  transition: translate 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.faq-drawer--open {
+  translate: 0 0;
+  /* only while open — a shadow on the closed drawer bleeds onto the page edge */
+  box-shadow: -18px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+.faq-drawer::-webkit-scrollbar { display: none; }
+
+.faq-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+  margin-bottom: var(--space-l);
+}
+
+.faq-drawer__head .kicker {
+  margin: 0;
+  color: var(--pin-teal);
+}
+
+.faq-drawer__close {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+  font-size: 1.1rem;
+  color: #EAF6F9;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.faq-drawer__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* the accordion inside the drawer sits on the deep ground */
+.faq-drawer .faq-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(145, 200, 214, 0.28);
+}
+
+.faq-drawer .faq-item[open] {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: var(--pin-teal);
+}
+
+.faq-drawer .faq-question { color: var(--color-deep-fg); }
+.faq-drawer .faq-answer   { color: var(--color-deep-body); }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-drawer { transition: none; }
+}

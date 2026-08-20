@@ -3,28 +3,6 @@ export const economicsContent = {
   title: 'Economic Impacts of Advanced AI',
   overview:
     <>What happens to an economy when machines can do most of the work? The optimistic answer assumes vastly increased output makes everyone better off&mdash;but economic theory does not guarantee this. Full automation can raise growth while collapsing the share of output that flows to human labor, leaving a richer world in which most people have less to sell. Around that core sit failures any economist will recognise as tractable: redistribution that doesn't restore agency, wealth and market power concentrating, a tax base eroding as wage income vanishes, accountability gaps when AI actors cause harm. Most AI research asks how to build more capable systems. Strategy research asks the question that comes after: what economy that capability produces, and whether the gains are shared or captured. The decisions that will lock in these outcomes are being made now, though anticipating where they lead is something we can always do more of.</>,
-  timeline: [
-    {
-      label: 'Stage 1',
-      title: 'Efficiency Lock-in',
-      text: <>Organizations trim buffers and redundancy to stay competitive. Communities experience growth, but hidden dependencies become denser.</>
-    },
-    {
-      label: 'Stage 2',
-      title: 'Shock Amplification',
-      text: <>Small disturbances ripple across supply, labor, and finance. Recovery times increase because local fail-safes were removed.</>
-    },
-    {
-      label: 'Stage 3',
-      title: 'Household Compression',
-      text: <>Families absorb volatility through debt, burnout, and migration. Local spending and civic participation decline as insecurity normalizes.</>
-    },
-    {
-      label: 'Stage 4',
-      title: 'Institutional Brittleness',
-      text: <>Public and private actors become reactive instead of strategic. Long-term adaptation projects are deferred, compounding systemic vulnerability.</>
-    }
-  ],
   resources: {
     mustReads: [
       <><a href="https://digitaleconomy.stanford.edu/about/education/the-economics-of-transformative-ai/" target="_blank" rel="noreferrer" className="resource-link">This course</a> by Stanford Digital Economy Lab.</>,

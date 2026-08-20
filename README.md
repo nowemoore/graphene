@@ -1,16 +1,68 @@
-# React + Vite
+# Graphene
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Site for **Graphene** — a 3-month experimental fellowship for strategy-curious talent working on
+open questions in building resilient post-TAI societies.
 
-Currently, two official plugins are available:
+Two views, switched via the hash router in [src/App.jsx](src/App.jsx):
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Route         | View                                          |
+| ------------- | --------------------------------------------- |
+| `#/programme` | hero · mission/why · fellowship structure      |
+| `#/topics`    | intro · interactive field map · research areas · FAQ |
 
-## React Compiler
+## Running it
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install      # first time only
+npm run dev      # → http://localhost:5173/resilient-societies-map/
+```
 
-## Expanding the ESLint configuration
+Note the `/resilient-societies-map/` path — it comes from `base` in
+[vite.config.js](vite.config.js) and applies in dev as well as in the build.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build    # production bundle into dist/
+npm run preview  # serve dist/ locally
+npm run lint     # eslint
+npm run deploy   # build + publish dist/ to the gh-pages branch
+```
+
+## Where things live
+
+```
+src/
+  index.css              fonts, type scale, spacing scale, base elements
+  cols/colors.css        every colour token — the "pin palette" lives here
+  App.jsx                hash router + nav + footer
+  App.css                nav / footer / shell
+  styles/programme.css   hero, sections, cards, steps, FAQ
+  styles/map.css         react-flow nodes + detail modal
+  components/
+    Nav.jsx
+    FieldMap.jsx         graph data + react-flow wiring
+    NodeModal.jsx        per-node resource hub
+  views/
+    Programme.jsx        copy for the programme view
+    Topics.jsx           copy for the topics view
+  content/nodes/         per-node overview + resources (one file per node)
+```
+
+### Design tokens
+
+Colours: `#1E2224` coal (wordmark, display type, buttons, footer band, map anchor node),
+`#005C7E` deep (section headings, links), `#71B5BE` teal (rules, borders, decorative),
+`#E6F4F1` mist (section washes), `#852500` rust (single warm accent, used sparingly).
+Teal is too light for text on white — use `--color-kicker` where teal-coloured type is wanted.
+
+Type: Montserrat Alternates (wordmark, nav, hero, kickers), Lora (headings, pull quotes),
+Mulish (body). Small caps come from the `.smallcaps` utility in `index.css`.
+
+### Hero photo
+
+The hero backdrop is NASA's Artemis II view of Earth, hotlinked from the Unsplash CDN
+(`HERO_PHOTO` in [src/views/Programme.jsx](src/views/Programme.jsx)). `auto=format` lets the CDN
+negotiate avif/webp and the `srcSet` widths keep phones off the 2560px file. Credit renders
+bottom-right of the hero per Unsplash's attribution guidance.
+
+Note this is the page's only third-party runtime dependency besides Google Fonts — if you'd
+rather not depend on Unsplash being up, download the file into `src/assets/` and import it.

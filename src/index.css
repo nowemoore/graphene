@@ -1,14 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 @import './cols/colors.css';
 
 :root {
+  /* ── type families ────────────────────────────────────────────────────── */
+  --font-display: 'Montserrat Alternates', 'Segoe UI', sans-serif; /* wordmark, nav, hero, kickers */
+  --font-heading: 'Lora', Georgia, serif;                          /* section headings, pull quotes */
+  --font-body:    'Mulish', 'Segoe UI', sans-serif;                /* everything else */
+
   /* ── text scale ───────────────────────────────────────────────────────── */
-  --text-xs:  clamp(0.68rem, 0.7vw,  0.75rem);
-  --text-s:   clamp(0.80rem, 0.9vw,  0.94rem);
-  --text-m:   clamp(0.92rem, 1.1vw,  1.00rem);
-  --text-l:   clamp(1.00rem, 1.4vw,  1.10rem);
-  --text-xl:  clamp(1.10rem, 1.8vw,  1.35rem);
-  --text-2xl: clamp(1.50rem, 3.0vw,  2.20rem);
+  --text-xs:  clamp(0.70rem, 0.7vw,  0.78rem);
+  --text-s:   clamp(0.85rem, 0.9vw,  0.95rem);
+  --text-m:   clamp(0.95rem, 1.1vw,  1.05rem);
+  --text-l:   clamp(1.05rem, 1.4vw,  1.18rem);
+  --text-xl:  clamp(1.25rem, 1.9vw,  1.50rem);
+  --text-2xl: clamp(1.60rem, 3.0vw,  2.30rem);
+  --text-3xl: clamp(2.40rem, 6.0vw,  4.60rem);
 
   /* ── space scale ──────────────────────────────────────────────────────── */
   --space-xs:  clamp(0.20rem, 0.3vw,  0.35rem);
@@ -18,12 +24,23 @@
   --space-xl:  clamp(1.20rem, 1.8vw,  1.50rem);
   --space-2xl: clamp(1.80rem, 2.5vw,  2.20rem);
   --space-3xl: clamp(2.50rem, 4.0vw,  3.20rem);
+  --space-4xl: clamp(3.60rem, 6.5vw,  5.40rem);
 
-  font-family: 'Manrope', 'Segoe UI', sans-serif;
-  line-height: 1.5;
+  /* ── measure ──────────────────────────────────────────────────────────── */
+  --nav-h:     3.4rem; /* fallback; App.jsx overwrites it with the measured height */
+  /* Phosphor "Link", light weight — used as a mask so it takes currentColor */
+  --icon-link: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M238,88.18a52.42,52.42,0,0,1-15.4,35.66l-34.75,34.75A52.28,52.28,0,0,1,150.62,174h-.05A52.63,52.63,0,0,1,98,119.9a6,6,0,0,1,6-5.84h.17a6,6,0,0,1,5.83,6.16A40.62,40.62,0,0,0,150.58,162h0a40.4,40.4,0,0,0,28.73-11.9l34.75-34.74A40.63,40.63,0,0,0,156.63,57.9l-11,11a6,6,0,0,1-8.49-8.49l11-11a52.62,52.62,0,0,1,74.43,0A52.83,52.83,0,0,1,238,88.18Zm-127.62,98.9-11,11A40.36,40.36,0,0,1,70.6,210h0a40.63,40.63,0,0,1-28.7-69.36L76.62,105.9A40.63,40.63,0,0,1,146,135.77a6,6,0,0,0,5.83,6.16H152a6,6,0,0,0,6-5.84A52.63,52.63,0,0,0,68.14,97.42L33.38,132.16A52.63,52.63,0,0,0,70.56,222h0a52.26,52.26,0,0,0,37.22-15.42l11-11a6,6,0,1,0-8.49-8.48Z'/%3E%3C/svg%3E");
+
+  --measure:   68ch;
+  --page-max:  1080px; /* body sections */
+  --shell-max: 1240px; /* nav + hero — the full-bleed bands */
+
+  font-family: var(--font-body);
+  line-height: 1.6;
   font-weight: 400;
   color: var(--color-root-fg);
-  font-synthesis: none;
+  /* Montserrat Alternates ships no smcp table — let the browser synthesise it */
+  font-synthesis: style small-caps;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,26 +50,87 @@
   box-sizing: border-box;
 }
 
+/* no visible scrollbar — scrolling itself is untouched */
 html {
-  scrollbar-width: none;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* legacy Edge */
+  scroll-behavior: smooth;
 }
-html::-webkit-scrollbar {
-  display: none;
+
+/* anchored sections stop below the sticky nav rather than under it */
+section[id] {
+  scroll-margin-top: calc(var(--nav-h) + var(--space-l));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: radial-gradient(ellipse 110% 85% at 50% 50%, var(--color-bg-center) 0%, var(--color-bg-edge) 70%) fixed;
+  background: var(--color-bg);
+  color: var(--color-text-body);
 }
 
 #root {
   min-height: 100svh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--font-heading);
+  color: var(--color-text-heading);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+}
+
+p {
+  line-height: 1.75;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-link-underline);
+  transition: color 140ms ease, text-decoration-color 140ms ease;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration-color: var(--color-link-underline-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--pin-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* small-caps helper — used by the nav and kickers */
+.smallcaps {
+  font-family: var(--font-display);
+  font-variant-caps: all-small-caps;
+  text-transform: lowercase;
+  letter-spacing: 0.13em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

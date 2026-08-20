@@ -1,82 +1,141 @@
 /* ──────────────────────────────────────────────────────────────────────────
    colour tokens — single source of truth for every colour in the app.
    Reference these with var(--color-*) everywhere; never hard-code a hex/rgba.
+
+   Base palette (the "pin palette"):
+     #71B5BE  teal    — decorative fills, borders, rules (too light for text)
+     #005C7E  deep    — section headings, anchor node
+     #E6F4F1  mist    — soft section washes, quiet surfaces
+     #852500  rust    — the single warm accent; used sparingly
+     #1E2224  coal    — wordmark, display type, primary actions, footer band
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
+  /* ── raw palette ───────────────────────────────────────────────────────── */
+  --pin-teal:  #71B5BE;
+  --pin-deep:  #005C7E;
+  --pin-mist:  #E6F4F1;
+  --pin-rust:  #852500;
+  --pin-coal:  #1E2224;
+
+  /* tints/shades derived from the five above */
+  --pin-teal-soft:  #A6D0D6;
+  --pin-teal-faint: #D3E7EA;
+  --pin-deep-soft:  #2C7897;
+  --pin-deep-deep:  #00435C;
+  --pin-mist-warm:  #F2F8F7;
+  --pin-rust-soft:  #A84523;
+  --pin-rust-faint: #F0E2DC;
+  --pin-rust-lift:  #E08A63; /* rust lightened to stay legible on a coal ground */
+  --pin-coal-lift:  #2E3538; /* coal, one step up — button hover */
+  --pin-coal-soft:  #6E787C; /* muted coal — type on a coal ground */
+  --pin-coal-faint: #E4E7E7; /* coal at ~10% — hairlines on light grounds */
+
   /* ── base / surfaces ───────────────────────────────────────────────────── */
-  --color-root-fg:        #2d2528; /* default document foreground */
-  --color-bg-center:      #161617; /* body radial-gradient centre */
-  --color-bg-edge:        #0a0a0b; /* body gradient edge + node fill (top) */
-  --color-node-fill:      #0e0e0f; /* node fill (bottom) */
+  --color-root-fg:       var(--pin-coal); /* default document foreground */
+  --color-bg:            #FBFCFC; /* page ground */
+  --color-bg-wash:       var(--pin-mist-warm); /* alternating section band */
+  --color-bg-mist:       var(--pin-mist);
+  --color-surface:       #FFFFFF; /* cards, nodes, modal */
+  --color-surface-quiet: #F7FAFA;
 
-  /* ── tier 1 — silver ───────────────────────────────────────────────────── */
-  --color-tier1-edge:     #b8b8ba;
-  --color-tier1-bright:   #f2f2f4; /* border highlight + label colour */
-  --color-tier1-glow:     rgba(242,242,244,0.08);
+  /* ── deep-blue ground (the qualities band) ─────────────────────────────── */
+  --color-deep-bg:       #01394E; /* one step below --pin-deep-deep */
+  --color-deep-fg:       #F1F8FA; /* headings on the deep ground */
+  --color-deep-body:     #B9D2DB; /* running copy */
+  --color-deep-muted:    #8FB0BC; /* kickers, captions */
 
-  /* ── tier 2 — pink ─────────────────────────────────────────────────────── */
-  --color-tier2-edge:     #c4a8c4;
-  --color-tier2-bright:   #ffe8ff; /* border highlight + label colour */
-  --color-tier2-glow:     rgba(255,232,255,0.08);
+  /* ── coal ground (footer, hero seam) ───────────────────────────────────── */
+  --color-coal-bg:       var(--pin-coal);
+  --color-coal-fg:       #E9ECEC;
+  --color-coal-muted:    #98A2A5;
+  --color-coal-line:     rgba(255, 255, 255, 0.12);
 
-  /* ── tier 3 — teal ─────────────────────────────────────────────────────── */
-  --color-tier3-edge:     #2090a4;
-  --color-tier3-bright:   #50d4c4;
-  --color-tier3-text:     #40c8b8;
-  --color-tier3-glow:     rgba(58,188,176,0.14);
+  /* ── hero (the orbit scene — always a coal ground) ─────────────────────── */
+  --color-hero-fg:       #F3F7F7; /* title */
+  --color-hero-body:     #B7BFC1; /* running copy over space */
+  --color-hero-muted:    #98A2A5; /* stat labels */
+  --color-hero-accent:   var(--pin-rust-lift);
+  --color-hero-line:     rgba(230, 244, 241, 0.18);
 
-  /* ── tier 4 — sage ─────────────────────────────────────────────────────── */
-  --color-tier4-edge:     #607870;
-  --color-tier4-text:     #97b1ab;
+  /* ── text ramp ─────────────────────────────────────────────────────────── */
+  --color-text-heading:  var(--pin-deep);  /* h2–h4 */
+  --color-text-display:  var(--pin-coal);  /* wordmark, hero title */
+  --color-text-strong:   var(--pin-coal);  /* body emphasis */
+  --color-text-body:     #414A4D; /* running copy */
+  --color-text-muted:    #5F686B; /* kickers, captions, answers */
+  --color-text-invert:   #FFFFFF;
+  --color-text-accent:   var(--pin-rust);
+  /* darkened teal — the palette teal itself is too light to sit on white as text */
+  --color-kicker:        #3E7C88;
 
-  /* ── warm-grey text ramp (hero / faq / modal) ─────────────────────────── */
-  --color-text-heading:       #e8e4e0; /* faq heading, page-hero h1 */
-  --color-text-strong:        #d4cec8; /* faq question, page intro */
-  --color-text-muted:         #8a8480; /* kickers, descriptions, faq answer */
-  --color-text-modal-heading: #e8e4de; /* modal h2 */
-  --color-text-modal-body:    #c8c4be; /* modal base + link hover */
-  --color-text-modal-sub:     #a4a09a; /* overview copy */
-  --color-text-modal-h3:      #e4e0da; /* resource subsection h3 */
-  --color-text-modal-list:    #8a8680; /* resource list + resource link */
-  --color-text-kicker-modal:  #787470; /* section kicker */
+  /* ── lines / borders ───────────────────────────────────────────────────── */
+  --color-line-soft:     #E5E9E9;
+  --color-line:          #D6DEDF;
+  --color-line-strong:   #BCCACC;
+  --color-border-soft:   #EAEEEE;
 
-  /* ── cool-grey text (controls) ─────────────────────────────────────────── */
-  --color-text-controls:      #e0e6f0; /* react-flow controls */
+  /* ── shadows (coal, very low opacity — calm, not floaty) ───────────────── */
+  --color-shadow-xs:     rgba(30, 34, 36, 0.05);
+  --color-shadow-s:      rgba(30, 34, 36, 0.07);
+  --color-shadow-m:      rgba(30, 34, 36, 0.10);
+  --color-shadow-l:      rgba(30, 34, 36, 0.16);
+  --color-shadow-modal:  rgba(30, 34, 36, 0.28);
 
-  /* ── white overlays (lines, fills, borders) ───────────────────────────── */
-  --color-line-soft:          rgba(255,255,255,0.1);   /* dividers, faq border, scrollbar */
-  --color-surface-faint:      rgba(255,255,255,0.03);  /* faq item bg */
-  --color-surface-faint-2:    rgba(255,255,255,0.055); /* faq item open bg */
-  --color-chevron:            rgba(255,255,255,0.35);
-  --color-border-soft:        rgba(255,255,255,0.08);  /* modal section border */
-  --color-white-20:           rgba(255,255,255,0.2);   /* scrollbar hover */
-  --color-border-control:     rgba(255,255,255,0.14);
-  --color-white-strong:       rgba(255,255,255,0.9);   /* modal-close hover */
+  /* ── nav ───────────────────────────────────────────────────────────────── */
+  --color-nav-bg:        rgba(251, 252, 252, 0.88);
+  --color-nav-border:    var(--color-line-soft);
+  --color-nav-link:      var(--color-text-muted);
+  --color-nav-link-on:   var(--pin-coal);
 
-  /* ── black shadows ─────────────────────────────────────────────────────── */
-  --color-shadow-52:          rgba(0,0,0,0.52);
-  --color-shadow-48:          rgba(0,0,0,0.48);
-  --color-shadow-44:          rgba(0,0,0,0.44);
-  --color-shadow-40:          rgba(0,0,0,0.40);
-  --color-shadow-modal:       rgba(0,0,0,0.72);
+  /* ── buttons ───────────────────────────────────────────────────────────── */
+  --color-btn-bg:        var(--pin-coal);
+  --color-btn-bg-hover:  var(--pin-coal-lift);
+  --color-btn-fg:        #FFFFFF;
+  --color-btn-ghost-fg:  var(--pin-coal);
+  --color-btn-ghost-br:  var(--color-line-strong);
+  --color-btn-ghost-bg:  transparent;
+  --color-btn-ghost-hov: var(--pin-mist);
 
-  /* ── react-flow controls ───────────────────────────────────────────────── */
-  --color-control-bg:         rgba(14,17,23,0.82);
-  --color-control-bg-hover:   rgba(30,36,48,0.95);
+  /* ── map: node tiers ───────────────────────────────────────────────────── */
+  /* tier 1 — the anchor, in coal so the lattice reads out from a single dark point */
+  --color-tier1-bg:      var(--pin-coal);
+  --color-tier1-br:      var(--pin-coal);
+  --color-tier1-fg:      #FFFFFF;
+  /* tier 2 — the two branches */
+  --color-tier2-bg:      var(--pin-deep-soft);
+  --color-tier2-br:      var(--pin-deep);
+  --color-tier2-fg:      #FFFFFF;
+  /* tier 3 — clickable problem areas */
+  --color-tier3-bg:      var(--color-surface);
+  --color-tier3-br:      var(--pin-deep);
+  --color-tier3-fg:      var(--pin-deep-deep);
+  --color-tier3-hov-br:  var(--pin-rust);
+  --color-tier3-hov-fg:  var(--pin-rust);
+  --color-tier3-hov-bg:  #FDF7F5;
+  /* tier 4 — leaf context */
+  --color-tier4-bg:      var(--pin-mist);
+  --color-tier4-br:      var(--pin-teal);
+  --color-tier4-fg:      var(--pin-coal);
 
-  /* ── edges / lines ─────────────────────────────────────────────────────── */
-  --color-edge:               rgba(255,255,255,0.52);  /* react-flow edge stroke */
+  /* ── map: edges & controls ─────────────────────────────────────────────── */
+  --color-edge:              #6E97A5; /* hairline lattice, tuned for the deep ground */
+  --color-control-bg:        rgba(255, 255, 255, 0.14);
+  --color-control-bg-hover:  rgba(255, 255, 255, 0.26);
+  --color-border-control:    rgba(145, 200, 214, 0.32);
+  --color-text-controls:     #EAF6F9;
 
   /* ── modal ─────────────────────────────────────────────────────────────── */
-  --color-modal-backdrop:     rgba(4,6,10,0.72);
-  --color-modal-bg-1:         #111214;
-  --color-modal-bg-2:         #141618;
-  --color-modal-close:        rgba(200,196,190,0.5);
+  --color-modal-backdrop:    rgba(30, 34, 36, 0.38);
+  --color-modal-bg:          var(--color-surface);
+  --color-modal-close:       var(--color-text-muted);
+  --color-modal-close-hover: var(--pin-rust);
+  --color-scroll-thumb:      var(--color-line-strong);
+  --color-scroll-thumb-hov:  var(--pin-teal);
 
-  /* ── links (cyan — matches tier-3 nodes) ──────────────────────────────── */
-  --color-link:                 #40c8b8;
-  --color-link-hover:           #50d4c4;
-  --color-link-underline:       rgba(64,200,184,0.45);
-  --color-link-underline-hover: rgba(80,212,196,0.7);
+  /* ── links ─────────────────────────────────────────────────────────────── */
+  --color-link:                 var(--pin-rust);
+  --color-link-hover:           var(--pin-rust-soft);
+  --color-link-underline:       var(--pin-rust-lift);
+  --color-link-underline-hover: var(--pin-rust);
 }
