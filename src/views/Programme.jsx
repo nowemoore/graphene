@@ -70,7 +70,7 @@ const STEPS = [
     n: '02',
     glyph: GlyphOverlap,
     title: 'Get matched',
-    body: <>Applicants design their own project at the intersection of their curiosity and a mentor's open questions. We make matches on genuine shared interests.</>,
+    body: <>Applicants design their own project at the intersection of their curiosity and a mentor's open questions. The process is competitive and matches are made on genuine shared interests. This means that only the best matches will be made, and we will prefer to make no match to a weak one.</>,
   },
   {
     n: '03',
