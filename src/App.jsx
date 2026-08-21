@@ -5,7 +5,7 @@ import Programme from './views/Programme.jsx'
 import './App.css'
 import './styles/programme.css'
 import './styles/map.css'
-import { SECTIONS } from './sections.js'
+import { SECTIONS, NAV_SECTIONS } from './sections.js'
 
 /* Links from the two-page era still point at `#/programme` and `#/topics`;
    send them to the equivalent anchor rather than leaving them dead. */
@@ -37,9 +37,22 @@ function useCurrentSection() {
     if (!targets.length) return
 
     /* Track every section currently crossing the band, not just the ones
-       whose state changed in this callback — otherwise the pick depends on
+       whose state changed in a given callback — otherwise the pick depends on
        scroll timing and a section can leave the nav with nothing lit. */
     const onScreen = new Set()
+
+    const pick = () => {
+      /* The final section sits at the foot of the page, so it can never scroll
+         far enough up to reach the band. Once the page bottoms out, it wins. */
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+      if (atBottom) {
+        setCurrent(NAV_SECTIONS[NAV_SECTIONS.length - 1].id)
+        return
+      }
+      const topmost = SECTIONS.find((sec) => onScreen.has(sec.id))
+      if (topmost) setCurrent(topmost.highlights ?? topmost.id)
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -47,14 +60,18 @@ function useCurrentSection() {
           if (e.isIntersecting) onScreen.add(e.target.id)
           else onScreen.delete(e.target.id)
         })
-        const topmost = SECTIONS.find((s) => onScreen.has(s.id))
-        if (topmost) setCurrent(topmost.highlights ?? topmost.id)
+        pick()
       },
       // a band just under the nav, so a section counts once it reaches the top
       { rootMargin: '-20% 0px -70% 0px' },
     )
     targets.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
+    window.addEventListener('scroll', pick, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', pick)
+    }
   }, [])
 
   return current
