@@ -733,19 +733,49 @@
   border-top: 1px solid var(--color-line);
 }
 
+/* a second beat inside a section — full section weight, own breathing room */
+.subsection {
+  margin-top: var(--space-3xl);
+  padding-top: var(--space-3xl);
+  border-top: 1px solid var(--color-line-soft);
+}
+
+/* the hairline needs to darken, not lighten, against the deep ground */
+.section--deep .subsection { border-top-color: rgb(255 255 255 / 0.12); }
+
+/* headline and standfirst centred; the list below keeps its own alignment */
+.subsection--center {
+  text-align: center;
+}
+
+.subsection--center .section__standfirst {
+  margin-inline: auto;
+}
+
 .subsection__title {
   margin: 0 0 var(--space-l);
   font-size: var(--text-xl);
 }
 
+.section--deep .metric-list li    { color: var(--color-deep-body); }
+
 .metric-list {
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 var(--space-l);
   list-style: none;
   max-width: var(--measure);
   display: grid;
   gap: var(--space-s);
 }
+
+/* centred as a block but read left-to-right, at full body weight */
+.metric-list--narrow {
+  max-width: var(--measure);
+  margin-inline: auto;
+  text-align: left;
+  gap: var(--space-l);
+}
+
 
 .metric-list li {
   display: flex;
@@ -755,11 +785,25 @@
   color: var(--color-text-body);
 }
 
+/* the profile itself, lifted out of the surrounding copy */
+.metric-lead {
+  font-weight: 600;
+  color: var(--color-text-strong);
+}
+
+.section--deep .metric-lead { color: var(--color-deep-fg); }
+
+.metric-list.metric-list--narrow li {
+  font-size: var(--text-l);
+  line-height: 1.55;
+}
+
+/* a double chevron standing in for a list bullet */
 .metric-tick {
   flex-shrink: 0;
-  margin-top: 0.35em;
-  font-size: 0.72em;
-  color: var(--pin-teal);
+  margin-top: 0.2em;
+  font-size: 0.85em;
+  color: var(--pin-rust);
 }
 
 .note {

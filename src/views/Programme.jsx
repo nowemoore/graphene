@@ -1,4 +1,4 @@
-import { CaretRightIcon } from '@phosphor-icons/react'
+import { CaretDoubleRightIcon, CaretRightIcon } from '@phosphor-icons/react'
 import { GlyphAmbiguity, GlyphBases, GlyphSystems }
   from '../components/QualityGlyphs.jsx'
 
@@ -44,7 +44,7 @@ const QUALITIES = [
     ),
     body: (
       <>
-        The same problem can appear impossible in one framing and almost obvious in another. We have special appreciation for people who instinctively change try new angles when high-dimensional problems demand different perspectives.
+        The same problem can appear impossible in one framing and almost obvious in another. We have special appreciation for people who instinctively try new angles when high-dimensional problems demand different perspectives.
       </>
     ),
   },
@@ -70,7 +70,7 @@ const STEPS = [
     n: '02',
     glyph: GlyphOverlap,
     title: 'Get matched',
-    body: <>Applicants design their own project at the intersection of their curiosity and a mentor's open questions. The process is competitive and matches are made on genuine shared interests. This means that only the best matches will be made, and we will prefer to make no match to a weak one.</>,
+    body: <>Applicants design their own project at the intersection of their curiosity and a mentor's open questions. The process is competitive and matches are made on shared interests. This means that only the best matches will be made, and we will prefer to make no match to a weak one.</>,
   },
   {
     n: '03',
@@ -220,6 +220,34 @@ export default function Programme() {
                 <p className="quality__body">{quality.body}</p>
               </article>
             ))}
+          </div>
+
+          <div className="subsection subsection--center">
+            <h2 className="section__title">&ldquo;Should I apply?&rdquo;</h2>
+            <p className="section__standfirst">
+              In addition to the qualities above, we also care that Graphene is the right next step for you. We believe that applicants with the following profiles can particularly benefit from what this fellowship offers:
+            </p>
+
+            <ul className="metric-list metric-list--narrow">
+              <li>
+                <CaretDoubleRightIcon className="metric-tick" weight="bold" aria-hidden="true" />
+                <span>
+                  <b className="metric-lead">Engineers and technical researchers</b> who suspect rigour is what strategy work is missing, and want to bring it.
+                </span>
+              </li>
+              <li>
+                <CaretDoubleRightIcon className="metric-tick" weight="bold" aria-hidden="true" />
+                <span>
+                  <b className="metric-lead">Professionals with experience in policy, think tanks, economics, or law</b>, looking to pivot into and build track record in proactive, long-horizon research.
+                </span>
+              </li>
+              <li>
+                <CaretDoubleRightIcon className="metric-tick" weight="bold" aria-hidden="true" />
+                <span>
+                  <b className="metric-lead">Exceptional early-career talent</b> who can show they think in decades instead of semesters, and are not afraid to reason to a view and defend it.
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
