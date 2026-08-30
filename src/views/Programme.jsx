@@ -128,7 +128,7 @@ export default function Programme() {
             <dl className="stat-strip">
               <div className="stat">
                 <dt className="smallcaps">Duration</dt>
-                <dd>3 months, remote</dd>
+                <dd>10 weeks, remote</dd>
               </div>
               <div className="stat">
                 <dt className="smallcaps">Cohort Size</dt>

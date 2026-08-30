@@ -1,6 +1,6 @@
 # Graphene
 
-Site for **Graphene** — a 3-month experimental fellowship for strategy-curious talent working on
+Site for **Graphene** — a 10-week experimental fellowship for strategy-curious talent working on
 open questions in building resilient post-TAI societies.
 
 Two views, switched via the hash router in [src/App.jsx](src/App.jsx):
