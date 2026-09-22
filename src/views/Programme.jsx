@@ -132,7 +132,7 @@ export default function Programme() {
               </div>
               <div className="stat">
                 <dt className="smallcaps">Cohort Size</dt>
-                <dd>up to 10 fellows</dd>
+                <dd>up to 5 fellows</dd>
               </div>
               <div className="stat">
                 <dt className="smallcaps">Contact Time</dt>
