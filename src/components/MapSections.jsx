@@ -12,6 +12,22 @@ const PROJECTS = [
     title: 'Metrics of Gradual Disempowerment',
     body: <>There is no agreed way to determine whether human influence over key systems declined this year, until it&rsquo;s too late. This project proposes candidate metrics (e.g. share of consequential decisions with material human veto, human-comprehensibility of institutional processes, revenue dependence on human participation), assesses each for measurability and Goodhart-resistance, and pilots one on real data.</>,
   },
+  {
+    title: 'Mapping the effects of extensive AI companionship, sycophancy and belief reinforcement',
+    body: <>Millions of people are using AI for companionship, social interaction, and emotional support. Assuming an increasing trend, we do not know what systemic societal effects to expect as a result, nor what new vulnerabilities and what levers may effectively protect societal cohesion. This project may seek to identify potential effects at different scales: individual, local, national, global.</>,
+  },
+  {
+    title: 'Analyzing the interaction between deskilling and an aging population',
+    body: <>Cognitive offloading and deskilling have been identified as potential dangers of reliance on AI. How will this interact with an aging population as it leaves the workforce with fewer individuals to replace it? Will AI serve as a replacement workforce to support prosperity at reduced human involvement, or will the effects on the skills of younger populations render them detrimentally unable to support their elders?</>,
+  },
+  {
+    title: 'Value development and avoiding value lock-in in the AI age',
+    body: <>Value lock-in is a scenario where AI systems permanently internalize and enforce a specific set of moral, political, or social values, preventing moral evolution. This may support democratic decline, homogenization, or power concentration. While there are ideas on how this may develop, it is unclear how society may develop resilience against such a state.</>,
+  },
+  {
+    title: 'How much human involvement keeps a system human-serving?',
+    body: <>This project aims to develop models of human-serving, human-involved systems, such as labour and tax, to understand what level of human involvement is required to maintain human influence over the system. How can this involvement vary? Are there critical roles that must be occupied by humans, or else human influence will be unrecoverable?</>,
+  },
 ]
 
 const FAQS = [
@@ -144,11 +160,6 @@ export default function MapSections() {
                 <p className="card__body">{project.body}</p>
               </article>
             ))}
-
-            {/* holds the third column until another project lands */}
-            <article className="card card--portrait card--pending" aria-hidden="true">
-              <p className="card__pending-label smallcaps">More to come</p>
-            </article>
           </div>
         </div>
       </section>
