@@ -14,7 +14,7 @@ const PROJECTS = [
   },
   {
     title: 'Mapping the effects of extensive AI companionship, sycophancy and belief reinforcement',
-    body: <>Millions of people are using AI for companionship, social interaction, and emotional support. Assuming an increasing trend, we do not know what systemic societal effects to expect as a result, nor what new vulnerabilities and what levers may effectively protect societal cohesion. This project may seek to identify potential effects at different scales: individual, local, national, global.</>,
+    body: <>Millions of people are using AI for companionship, social interaction, and emotional support. Assuming an increasing trend, we do not know what systemic societal effects to expect as a result, what new vulnerabilities may arise, nor what levers may effectively protect societal cohesion. This project seeks to identify potential effects at different scales: individual, local, national, global.</>,
   },
   {
     title: 'Analyzing the interaction between deskilling and an aging population',
