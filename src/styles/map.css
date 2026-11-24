@@ -490,6 +490,13 @@
 .faq-drawer .faq-question { color: var(--color-deep-fg); }
 .faq-drawer .faq-answer   { color: var(--color-deep-body); }
 
+/* The base link rust is a dark ink for light grounds; on the drawer's deep ground it needs the
+   lifted value to stay legible. */
+.faq-drawer .resource-link {
+  color: var(--pin-rust-lift);
+  text-decoration-color: var(--pin-rust-lift);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .faq-drawer { transition: none; }
 }

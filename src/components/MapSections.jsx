@@ -49,7 +49,20 @@ const FAQS = [
   },
   {
     q: 'What makes the author qualified to curate these resources?',
-    a: 'Not much, which is why the author called some of the most well-read and sharp people she knows to the rescue. Shout out to Maria Kostylew, Charles Dillon, Ashe Vazquez, Yasha Rise, and others for their thoughtful contributions.',
+    a: (
+      <>
+        Not much, which is why the author called some of the most well-read and sharp people she knows to the rescue. Shout out to Maria Kostylew, Charles Dillon, Ashe Vazquez, Yasha Rise,{' '}
+        <a
+          className="resource-link"
+          href="https://www.linkedin.com/in/asha-mathews"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Asha Mathews
+        </a>
+        , and others for their thoughtful contributions.
+      </>
+    ),
   },
 ]
 
